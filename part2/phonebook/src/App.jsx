@@ -25,21 +25,27 @@ const App = () => {
 
 const addName = (event) => {
   event.preventDefault();
+
+  if (newName.length < 3) {
+    setErrorMessage("Name must be at least 3 characters long");
+    setTimeout(() => {
+      setErrorMessage(null);
+    }, 2000);
+    return;
+  }
   
   if (persons.find(person => person.name === newName && person.number === newNumber)) {
     alert(`${newName} already exists in the phonebook`);
     setNewName("");
     return;
-  }
 
-  else if (persons.find(person => person.name === newName && person.number !== newNumber)) {
+  } else if (persons.find(person => person.name === newName && person.number !== newNumber)) {
     const person = persons.find(person => person.name === newName);
     if (!window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) return;
     handleUpdateNumber(person.id, newNumber);
     setNewName("");
-  }
 
-  else {
+  } else {
     const nameObject = { name: newName, number: newNumber, id: `${persons.length + 1}` };
     personService
       .create(nameObject)

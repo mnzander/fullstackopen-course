@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:3001/persons'
+const baseUrl = '/api/people'
 
 const getAll = () => {
     try{
@@ -13,6 +13,7 @@ const getAll = () => {
   
 const create = newObject => {
     try{
+        console.log("aqui")
         const request = axios.post(baseUrl, newObject);
         return request.then(response => response.data);
     } catch(error) {
