@@ -6,24 +6,26 @@ if (process.argv.length < 3) {
 }
 
 const password = process.argv[2];
-const url = `mongodb+srv://fullstack:${password}@cluster0.4tf9j.mongodb.net/peopleApp?retryWrites=true&w=majority&appName=Cluster0`;
+const url = `mongodb+srv://fullstack:${password}@cluster0.4tf9j.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0`;
 
 mongoose.set('strictQuery', false);
 
 mongoose.connect(url);
 
-const personSchema = new mongoose.Schema({
-  name: String,
-  number: String,
+const blogSchema = new mongoose.Schema({
+  title: String,
+  author: String,
+  url: String,
+  likes: Number
 });
 
-const Person = mongoose.model('Person', personSchema);
+const Blog = mongoose.model('Blog', blogSchema);
 
 // Si solo se proporciona la contraseña
 if (process.argv.length === 3) {
-  Person.find({}).then(result => {
-    result.forEach(person => {
-      console.log(person);
+  Blog.find({}).then(result => {
+    result.forEach(blog => {
+      console.log(blog);
     });
     mongoose.connection.close();
   });
@@ -31,17 +33,19 @@ if (process.argv.length === 3) {
 
 // Si se proporcionan más argumentos, creamos una nueva persona
 else if (process.argv.length >= 5) {
-  const person = new Person({
-    name: process.argv[3],
-    number: process.argv[4],
+  const blog = new Blog({
+    title: process.argv[3],
+    author: process.argv[4],
+    url: process.argv[5],
+    likes: process.argv[6]
   });
 
-  person.save().then(() => {
-    console.log(`added ${person.name} number ${person.number} to phonebook`);
+  blog.save().then(() => {
+    console.log(`added ${blog.title} to database.`);
     mongoose.connection.close();
   });
 }
 
 else {
-  console.log("Usage: node mongo.js <password> [name] [number]");
+  console.log("Usage: node mongo.js <password> [value1] [value2]...");
 }
