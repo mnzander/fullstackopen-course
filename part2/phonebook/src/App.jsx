@@ -58,6 +58,7 @@ const addName = (event) => {
         setNewName("");
       })
       .catch(error => {
+        console.log("Estoy en el error", error)
         setErrorMessage(`${newName} was already removed from server`);
         setTimeout(() => {
           setErrorMessage(null);
@@ -81,11 +82,12 @@ const addName = (event) => {
       }, 2000);
     })
     .catch(error => {
+      console.log("Estoy en el error", error)
       setErrorMessage(`${person.name} was already removed from server`);
       setTimeout(() => {
         setErrorMessage(null)
       }, 2000)
-      setPersons(notes.filter(n => n.id !== id))
+      setPersons(persons.filter(n => n.id !== id))
     });
 }
 
@@ -113,7 +115,7 @@ const addName = (event) => {
         setPersons(personsAux);
       })
       .catch(error => {
-        console.log("Estoy en el error")
+        console.log("Estoy en el error", error)
         setErrorMessage("This person was already removed from server");
         setTimeout(() => {
           setErrorMessage(null)
